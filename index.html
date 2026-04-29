@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pastel Pink Gift ✨</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Quicksand:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    /* Memanggil file background.jpg milikmu */
+    background: linear-gradient(rgba(255, 245, 247, 0.7), rgba(255, 245, 247, 0.7)), 
+                url('img/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Quicksand', sans-serif;
+    overflow: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor - Heart shaped pixel */
+  .cursor {
+    width: 15px; height: 15px;
+    background: #ff8fa3;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    clip-path: path('M12 4.419c-2.826-5.695-11.999-4.064-11.999 3.27 0 7.27 9.903 10.938 11.999 15.311 2.096-4.373 12-8.041 12-15.311 0-7.327-9.17-8.972-12-3.27z');
+    transition: transform 0.05s linear;
+  }
+
+  .particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .pixel {
+    position: absolute;
+    width: 6px; height: 6px;
+    border-radius: 2px;
+    opacity: 0.6;
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp {
+    from { transform: translateY(110vh) rotate(0deg); }
+    to { transform: translateY(-10vh) rotate(360deg); }
+  }
+
+  .gift-card {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    filter: drop-shadow(0 10px 20px rgba(255, 143, 163, 0.2));
+  }
+
+  /* Pastel Gradient Border */
+  .pixel-border-top {
+    width: 340px;
+    height: 8px;
+    background: repeating-linear-gradient(90deg,
+      #ffb3c1 0px, #ffb3c1 8px,
+      #ffc2d1 8px, #ffc2d1 16px,
+      #ffe5ec 16px, #ffe5ec 24px,
+      #ffffff 24px, #ffffff 32px
+    );
+  }
+
+  .card-inner {
+    width: 340px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    border-left: 4px solid #ffe5ec;
+    border-right: 4px solid #ffe5ec;
+    padding: 28px 28px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .title-label {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: #ff8fa3;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .title-main {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: #594145;
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  .image-wrapper {
+    position: relative;
+    width: 220px;
+    height: 280px;
+    border: 2px solid #ffe5ec;
+    background: #fff;
+  }
+
+  .img-base, .img-hover {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    padding: 5px;
+    transition: opacity 0.5s ease;
+  }
+  .img-hover { opacity: 0; }
+
+  .corner {
+    position: absolute;
+    width: 10px; height: 10px;
+    background: #ffb3c1;
+    z-index: 2;
+  }
+  .corner.tl { top: -5px; left: -5px; }
+  .corner.tr { top: -5px; right: -5px; }
+  .corner.bl { bottom: -5px; left: -5px; }
+  .corner.br { bottom: -5px; right: -5px; }
+
+  .hover-message {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(255, 245, 247, 0.95) 50%);
+    padding: 40px 16px 16px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 3;
+  }
+  .hover-message p {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    color: #ff758f;
+    font-weight: 600;
+  }
+
+  .image-wrapper:hover .img-base { opacity: 0; }
+  .image-wrapper:hover .img-hover { opacity: 1; }
+  .image-wrapper:hover .hover-message { opacity: 1; }
+
+  .message-quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: #8a6a71;
+    line-height: 1.7;
+  }
+  .message-name {
+    margin-top: 10px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #ffb3c1;
+    font-weight: bold;
+  }
+
+  .divider {
+    width: 100%;
+    height: 2px;
+    background: repeating-linear-gradient(90deg, #ffe5ec 0px, #ffe5ec 4px, transparent 4px, transparent 8px);
+  }
+
+  .pixel-border-bottom {
+    width: 340px;
+    height: 8px;
+    background: repeating-linear-gradient(90deg, #ffffff 0px, #ffffff 8px, #ffe5ec 8px, #ffe5ec 16px, #ffc2d1 16px, #ffc2d1 24px, #ffb3c1 24px, #ffb3c1 32px);
+  }
+
+  .hint {
+    margin-top: 16px;
+    font-size: 10px;
+    color: #ff8fa3;
+    letter-spacing: 2px;
+    animation: blink 2s ease infinite;
+  }
+
+  /* Suggestion: Click Sparkle Effect */
+  .click-heart {
+    position: fixed;
+    color: #ff758f;
+    pointer-events: none;
+    z-index: 10000;
+    animation: heartExplode 0.8s ease-out forwards;
+  }
+  @keyframes heartExplode {
+    0% { transform: scale(0); opacity: 1; }
+    100% { transform: scale(2) translateY(-50px); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="particles" id="particles"></div>
+
+<div class="gift-card" id="card">
+  <div class="pixel-border-top"></div>
+  <div class="card-inner">
+    <div class="title-area">
+      <div class="title-label">🌸 Sweetest Gift 🌸</div>
+      <div class="title-main">Buat Mumuuttttt</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="image-wrapper">
+      <img class="img-base" src="img/img1.png" alt="photo 1"/>
+      <img class="img-hover" src="img/img2.png" alt="photo 2" />
+      <div class="hover-message">
+        <p>A prettiest Princess i ever meet🎀"</p>
+      </div>
+      <div class="corner tl"></div><div class="corner tr"></div>
+      <div class="corner bl"></div><div class="corner br"></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="message-area">
+      <p class="message-quote">"May your day be as beautiful<br> as these colors"</p>
+      <p class="message-name">— Mutiaa 🌸</p>
+    </div>
+
+    <div class="hearts">
+      <span>🍓</span><span>🎀</span><span>🤍</span><span>🎀</span><span>🍓</span>
+    </div>
+  </div>
+  <div class="pixel-border-bottom"></div>
+  <p class="hint">✦ touch the image & click anywhere ✦</p>
+</div>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+
+  // Pastel particles
+  const colors = ['#ffb3c1','#ffc2d1','#ffe5ec','#fb6f92'];
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 25; i++) {
+    const p = document.createElement('div');
+    p.className = 'pixel';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.animationDuration = (Math.random() * 5 + 5) + 's';
+    p.style.animationDelay = (Math.random() * 5) + 's';
+    container.appendChild(p);
+  }
+
+  // Suggestion: Add Click Heart Effect
+  document.addEventListener('click', (e) => {
+    const heart = document.createElement('div');
+    heart.className = 'click-heart';
+    heart.innerHTML = '🌸';
+    heart.style.left = (e.clientX - 10) + 'px';
+    heart.style.top = (e.clientY - 10) + 'px';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 800);
+  });
+</script>
+</body>
+</html>
