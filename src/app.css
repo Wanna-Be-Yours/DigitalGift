@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@700&family=Quicksand:wght@500&display=swap');
+
 /* ═══════════════════════════════════════════════════════════════════════════
    ROOT & RESET
 ═══════════════════════════════════════════════════════════════════════════ */
@@ -268,11 +270,11 @@ body {
   z-index: 10;
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap; /* Allow stacking when screen is narrow */
-  align-items: flex-start;
-  justify-content: flex-start;
+  flex-wrap: wrap;
+  align-items: flex-start; /* Better for variable height cards */
+  justify-content: center;
   padding: 0; 
-  gap: 60px; /* Increased gap to prevent 'crashing' */
+  gap: 60px; /* Adjusted gap for 3 columns */
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -320,11 +322,19 @@ body {
   -webkit-backdrop-filter: blur(16px);
   position: relative;
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+    0 0 0 1px rgba(255, 255, 255, 0.4) inset,
+    0 10px 30px rgba(0, 0, 0, 0.05); /* Default subtle shadow */
   transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
               box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: width, transform;
+}
+
+.gift-card.is-revealed {
+  /* Soft, low-intensity shadow that drops downwards, avoiding the top */
+  box-shadow: 
+    0 0 0 1px rgba(255, 255, 255, 0.6) inset,
+    0 25px 60px rgba(255, 107, 157, 0.15); 
 }
 
 
@@ -335,7 +345,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: linear-gradient(90deg, #ff6b9d 0%, #c77dff 50%, #ff9a3c 100%);
+  background: linear-gradient(90deg, #ff6b9d 0%, #c77dff 20%, #ff9a3c 100%);
   padding: 8px 12px;
   position: relative;
 }
@@ -509,8 +519,9 @@ body {
   inset: 0;
   background: linear-gradient(180deg,
       rgba(100, 20, 80, 0.0) 0%,
-      rgba(150, 30, 100, 0.55) 50%,
-      rgba(80, 10, 60, 0.85) 100%);
+      rgba(100, 20, 80, 0.0) 60%, /* Stay transparent for longer at the top */
+      rgba(150, 30, 100, 0.45) 85%,
+      rgba(80, 10, 60, 0.75) 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -519,14 +530,10 @@ body {
   gap: 6px;
   opacity: 0;
   transition: opacity 0.5s ease;
-  backdrop-filter: blur(0px);
-  -webkit-backdrop-filter: blur(0px);
 }
 
 .overlay-visible {
   opacity: 1;
-  backdrop-filter: blur(1px);
-  -webkit-backdrop-filter: blur(1px);
 }
 
 .overlay-stars {
@@ -612,31 +619,6 @@ body {
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   RIGHT COLUMN
-═══════════════════════════════════════════════════════════════════════════ */
-.right-column {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  width: 0;
-  height: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-    height 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 0.6s ease,
-    margin-left 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  margin-left: 0;
-  flex-shrink: 0; /* Prevent shrinking during transition */
-}
-
-.right-column.revealed {
-  width: min(370px, 95vw);
-  height: auto;
-  opacity: 1;
-  /* margin-left removed, handled by main-layout gap */
-}
 
 .love-letter, .memory-card {
   background: linear-gradient(165deg,
@@ -1106,4 +1088,538 @@ body {
   .card-title {
     font-size: 22px;
   }
+}
+
+.side-column {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    height 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.6s ease;
+  flex-shrink: 0;
+}
+
+.side-column.revealed {
+  width: min(370px, 95vw);
+  height: auto;
+  opacity: 1;
+}
+
+.side-column.right-side.revealed {
+  width: min(800px, 95vw);
+}
+
+.right-side-content-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+@media (min-width: 900px) {
+  .right-side-content-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+      "music birthday"
+      "voice voice";
+    align-items: start;
+  }
+  
+  .music-card-section { grid-area: music; }
+  .birthday-letter-section { grid-area: birthday; }
+  .voice-note-section { grid-area: voice; }
+}
+
+@media (max-width: 899px) {
+  .side-column.right-side.revealed {
+    width: min(400px, 95vw);
+  }
+  .music-card-section { order: 1; }
+  .voice-note-section { order: 2; }
+  .birthday-letter-section { order: 3; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MUSIC CARD (Spotify / AM Style)
+   Replicating the hand-drawn aesthetic from the user's image
+═══════════════════════════════════════════════════════════════════════════ */
+
+.music-card-section {
+  width: 100%;
+}
+
+.music-card {
+  width: 100%;
+  background: #fff0f5; /* Very light pink/lavender blush */
+  border-radius: 24px;
+  padding: 12px;
+  color: #000;
+  box-shadow: 
+    0 15px 35px rgba(0,0,0,0.1),
+    0 0 0 1px rgba(0,0,0,0.05);
+  position: relative;
+  /* Add a very slight paper texture */
+  background-image: 
+    radial-gradient(#00000005 1px, transparent 0);
+  background-size: 20px 20px;
+  transform: rotate(-1.2deg);
+}
+
+.music-card-paper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: #ffd6e0; /* Romantic pink background */
+  border: 1.5px solid #1a1a1a;
+  padding: 20px 20px 40px 20px; /* Increased bottom padding */
+  border-radius: 16px;
+  min-height: 520px; /* Force minimum length */
+  position: relative;
+  /* Slightly irregular border for hand-drawn feel */
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.music-tag {
+  position: absolute;
+  top: 10px;
+  left: 16px;
+  font-family: 'Dancing Script', cursive;
+  font-size: 14px;
+  color: #e63946;
+  opacity: 0.8;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+}
+
+/* ── Album Art Area ── */
+.music-album-art {
+  width: 100%;
+  height: 280px; /* Significantly increased height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 25px; /* More space for the tag */
+}
+
+.album-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: auto;
+}
+
+/* ── Music Info ── */
+.music-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5px;
+}
+
+.song-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.artist-name {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 18px;
+  color: #333;
+  margin: 4px 0 0;
+  font-weight: 500;
+}
+
+/* ── Progress Bar ── */
+.music-controls {
+  padding: 0 5px;
+}
+
+.progress-container {
+  width: 100%;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: #eee;
+  border-radius: 2px;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #000;
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
+.progress-knob {
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  background: #000;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.time-info {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 12px;
+  color: #555;
+  margin-top: 5px;
+}
+
+/* ── Buttons ── */
+.playback-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.control-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #000;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.control-btn:hover {
+  transform: scale(1.1);
+}
+
+.play-pause-btn {
+  background: #000;
+  color: #fff;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  padding: 0;
+}
+
+.play-pause-btn:hover {
+  background: #333;
+}
+
+/* ── Spotify Footer ── */
+.spotify-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 5px;
+}
+
+.spotify-logo {
+  color: #1DB954;
+}
+
+.spotify-code {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 1.5px;
+  height: 24px;
+}
+
+.code-bar {
+  flex: 1;
+  background: #000;
+  border-radius: 0.5px;
+}
+
+/* ── Transitions for revealed sections ── */
+.reveal-section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Voice Note Player ── */
+.voice-note-section {
+  width: 100%;
+  margin-top: 60px;
+}
+
+.refined-card {
+  background: #ffffff;
+  border: 1.5px solid #ffb3c6;
+  padding: 20px 25px;
+  border-radius: 35px;
+  box-shadow: 8px 8px 25px rgba(255, 179, 198, 0.2);
+  position: relative;
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+}
+
+.voice-note-layout {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  position: relative;
+}
+
+/* Avatar Area */
+.voice-avatar-area {
+  position: relative;
+  z-index: 5;
+}
+
+.main-avatar-circle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 4px solid #ffb3c6;
+  padding: 3px;
+  background: #fff;
+  position: relative;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.badge-icon {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  background: #ffb3c6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.icon-left {
+  left: -5px;
+  bottom: 20px;
+}
+
+.icon-right {
+  right: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Content Area */
+.voice-content-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
+
+.voice-top-bubble {
+  background: #ffb3c6;
+  padding: 6px 14px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  position: absolute;
+  top: -45px;
+  right: 0;
+  box-shadow: 0 4px 12px rgba(255, 179, 198, 0.3);
+}
+
+.bubble-play {
+  background: none;
+  border: none;
+  color: #1a1a1a;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.bubble-waveform {
+  display: flex;
+  align-items: center;
+}
+
+.wave-bars {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.wave-bar {
+  width: 2px;
+  background: #000;
+  border-radius: 1px;
+}
+
+.wave-heart {
+  padding: 0 4px;
+}
+
+.voice-mid-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 8px 0;
+  margin-left: 5px;
+}
+
+.mid-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.mid-icon:hover {
+  opacity: 1;
+}
+
+.mid-volume-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-left: 10px;
+}
+
+.mid-volume-line {
+  width: 50px;
+  height: 2px;
+  background: #ffb3c6;
+  border-radius: 1px;
+}
+
+.mid-volume-knob {
+  position: absolute;
+  right: 10px;
+  width: 6px;
+  height: 6px;
+  background: #ffb3c6;
+  border-radius: 50%;
+  border: 1px solid #fff;
+}
+
+.voice-controls-area {
+  width: 100%;
+  margin-top: 5px;
+}
+
+.voice-playback-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.voice-bottom-bubble {
+  background: #ffb3c6;
+  padding: 8px 18px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  box-shadow: 0 4px 15px rgba(255, 179, 198, 0.3);
+  cursor: pointer;
+}
+
+.bubble-waveform-long {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 20px;
+}
+
+.wave-bar-long {
+  flex: 1;
+  width: 2px;
+  background: #000;
+  border-radius: 1px;
+  opacity: 0.8;
+}
+
+.wave-bar-long.animating {
+  animation: bar-pulse 1s ease-in-out infinite;
+}
+
+@keyframes bar-pulse {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(1.5); }
+}
+
+.bubble-time {
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  color: #1a1a1a;
+  white-space: nowrap;
+}
+
+/* ── Stickers ── */
+.sticker {
+  position: absolute;
+  font-size: 24px;
+  z-index: 10;
+  pointer-events: none;
+  filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.1));
+  animation: float-gentle 3s ease-in-out infinite;
+}
+
+.sticker-top-left {
+  top: -10px;
+  left: -10px;
+  transform: rotate(-15deg);
+}
+
+.sticker-bottom-right {
+  bottom: -10px;
+  right: -10px;
+  transform: rotate(15deg);
+}
+
+/* ── Heart Progress Knob ── */
+.progress-knob {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
